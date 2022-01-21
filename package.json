@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/e-cell-bphc/launchpad-backend/issues"
   },
-  "homepage": "https://github.com/e-cell-bphc/launchpad-backend#readme"
+  "homepage": "https://github.com/e-cell-bphc/launchpad-backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "mongoose": "^6.1.7"
+  }
 }
