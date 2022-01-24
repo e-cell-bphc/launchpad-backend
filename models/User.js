@@ -7,13 +7,14 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
     required: true
   },
-  date: {
+  datetime: {
     type: Date,
     default: Date.now
   },
@@ -24,6 +25,11 @@ const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     required: true
+  },
+  accessScopes: {
+    type: Array,
+    required: true,
+    default: ['client']
   }
 })
 
