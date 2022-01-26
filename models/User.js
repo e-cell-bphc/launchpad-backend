@@ -33,4 +33,10 @@ const userSchema = new mongoose.Schema({
   }
 })
 
+// access scopes are (in increasing order of power):
+// 1. admin
+// 2. editor
+// 3. corp
+// 4. client
+
 module.exports = mongoose.model('User', userSchema)
