@@ -18,7 +18,7 @@ async function getProfile(req, res) {
   res.status(401).json(noUser)
 }
 
-async function getProfileWithAdminScope(req, res) {
+async function getProfileWithAdminOrEditorScope(req, res) {
   const userID = req.params.id
 
   const result = await User.findOne
@@ -52,5 +52,5 @@ async function getProfileWithAdminScope(req, res) {
 
 module.exports = {
   getProfile,
-  getProfileWithAdminScope
+  getProfileWithAdminOrEditorScope
 }

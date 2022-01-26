@@ -45,7 +45,7 @@ async function ensureAuthenticated(req, res, next) {
 }
 
 // this middleware makes sure all requests are authenticated and have the admin scope
-async function ensureAuthenticatedAuthAdminScope(req, res, next) {
+async function ensureAuthenticatedWithAdminEditorScope(req, res, next) {
   if (!req.headers.authorization) {
     return res.status(401).send(tokenMissing)
   }
@@ -65,7 +65,10 @@ async function ensureAuthenticatedAuthAdminScope(req, res, next) {
   try {
     const usr = await User.findOne({ _id: user._id }).lean()
 
-    if (usr.accessScopes.includes('admin')) {
+    if (
+      usr.accessScopes.includes('admin') ||
+      usr.accessScopes.includes('editor')
+    ) {
       req.usr = usr
       next()
     } else {
@@ -86,5 +89,5 @@ async function ensureAuthenticatedAuthAdminScope(req, res, next) {
 
 module.exports = {
   ensureAuthenticated,
-  ensureAuthenticatedAuthAdminScope
+  ensureAuthenticatedWithAdminEditorScope
 }

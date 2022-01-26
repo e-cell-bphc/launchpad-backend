@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   }
 })
 
-// access scopes are (in increasing order of power):
+// access scopes are (in decreasing order of power):
 // 1. admin
 // 2. editor
 // 3. corp
