@@ -8,7 +8,9 @@ const { noUser, userCreationFailed } = require('../errors/auth')
 
 async function register(req, res) {
   console.log(req.body)
-  const { name, email, password, college, phoneNumber } = req.body
+  const { name, email, password, college, phoneNumber, accessScopes } = req.body
+
+  const modAccessScopes = accessScopes ? accessScopes : ['client']
 
   let hashedPassword = await bcrypt.hash(password, 10)
 
@@ -18,7 +20,8 @@ async function register(req, res) {
       email,
       password: hashedPassword,
       college,
-      phoneNumber
+      phoneNumber,
+      accessScopes: modAccessScopes
     })
 
     console.log(result)

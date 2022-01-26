@@ -12,10 +12,17 @@ const tokenInvalid = { status: 'error', code: '204', desc: 'TokenInvalid' }
 
 const tokenExpired = { status: 'error', code: '205', desc: 'TokenExpired' }
 
+const noAdminScope = {
+  status: 'error',
+  code: '206',
+  desc: "User doesn't have admin permissions"
+}
+
 module.exports = {
   noUser,
   userCreationFailed,
   tokenMissing,
   tokenInvalid,
-  tokenExpired
+  tokenExpired,
+  noAdminScope
 }
