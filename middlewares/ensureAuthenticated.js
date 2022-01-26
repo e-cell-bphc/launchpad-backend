@@ -1,9 +1,17 @@
 const User = require('../models/User')
+const {
+  tokenMissing,
+  tokenInvalid,
+  tokenExpired,
+  noUser
+} = require('../errors/auth')
+
+const moment = require('moment')
 
 // this middleware makes sure all requests are authenticated
 export async function ensureAuthenticated(req, res, next) {
   if (!req.headers.authorization) {
-    return res.status(401).send({ error: 'TokenMissing' })
+    return res.status(401).send(tokenMissing)
   }
   var token = req.headers.authorization.split(' ')[1]
 
@@ -11,11 +19,11 @@ export async function ensureAuthenticated(req, res, next) {
   try {
     user = jwt.decode(token, config.TOKEN_SECRET)
   } catch (err) {
-    return res.status(401).send({ error: 'TokenInvalid' })
+    return res.status(401).send(tokenInvalid)
   }
 
   if (user.expiry <= moment().unix()) {
-    return res.status(401).send({ error: 'TokenExpired' })
+    return res.status(401).send(tokenExpired)
   }
   // check if the user exists
   try {
@@ -23,7 +31,7 @@ export async function ensureAuthenticated(req, res, next) {
     req.usr = usr
     next()
   } catch (error) {
-    return res.json({ error: 'user does not exist' })
+    return res.json(noUser)
   }
   // User.findById(user._id, function (err, user) {
   //   if (!user) {

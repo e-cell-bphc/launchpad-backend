@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const moment = require('moment')
 const { TOKEN_SECRET } = require('../config')
 const { unexpectedError } = require('../errors/common')
 const { noUser, userCreationFailed } = require('../errors/auth')
@@ -21,12 +22,14 @@ async function register(req, res) {
     })
 
     console.log(result)
+    const tokenExpiry = moment().add(60, 'day').unix()
 
     const token = jwt.sign(
       {
         _id: result._id,
         email: result.email,
-        accessScopes: result.accessScopes
+        accessScopes: result.accessScopes,
+        expiry: tokenExpiry
       },
       TOKEN_SECRET
     )
@@ -54,12 +57,15 @@ async function login(req, res) {
 
   if (await bcrypt.compare(password, result.password)) {
     console.log(result)
+    const tokenExpiry = moment().add(60, 'day').unix()
+    console.log(tokenExpiry)
 
     const token = jwt.sign(
       {
         _id: result._id,
         email: result.email,
-        accessScopes: result.accessScopes
+        accessScopes: result.accessScopes,
+        expiry: tokenExpiry
       },
       TOKEN_SECRET
     )
