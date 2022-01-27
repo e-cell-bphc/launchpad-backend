@@ -8,10 +8,10 @@ const {
   ensureAuthenticatedWithAdminEditorScope
 } = require('../middlewares/ensureAuthenticated')
 
-router.get('/:id', ensureAuthenticated, getProfile)
+router.get('/:id', ensureAuthenticated(['client']), getProfile)
 router.get(
   '/admin/:id',
-  ensureAuthenticatedWithAdminEditorScope,
+  ensureAuthenticated(['admin', 'editor', 'client']),
   getProfileWithAdminOrEditorScope
 )
 

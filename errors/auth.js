@@ -18,11 +18,18 @@ const noAdminScope = {
   desc: "User doesn't have admin permissions"
 }
 
+const notEnoughAuthorisation = {
+  status: 'error',
+  code: '207',
+  desc: "User doesn't have required permissions"
+}
+
 module.exports = {
   noUser,
   userCreationFailed,
   tokenMissing,
   tokenInvalid,
   tokenExpired,
-  noAdminScope
+  noAdminScope,
+  notEnoughAuthorisation
 }
