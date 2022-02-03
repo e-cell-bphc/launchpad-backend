@@ -11,7 +11,12 @@ const companySchema = new mongoose.Schema({
     unique: true
   },
   roles: {
-    type: Array
+    type: Array,
+    required: true
+  },
+  logoURL: {
+    type: String,
+    required: true
   }
 })
 

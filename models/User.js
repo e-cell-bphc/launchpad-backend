@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema({
     type: Array,
     required: true,
     default: ['client']
+  },
+  companiesApplied: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  resumeURL: {
+    type: String,
+    required: true,
+    default: ''
   }
 })
 
