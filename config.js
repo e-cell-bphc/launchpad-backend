@@ -1,11 +1,20 @@
 require('dotenv').config()
 
+function getURI() {
+  if (process.env.ATLAS_URI) {
+    return (
+      process.env.ATLAS_URI ||
+      process.env.MONGO_URI ||
+      'mongodb://localhost/ecell'
+    )
+  }
+
+  return process.env.MONGO_URI || 'mongodb://localhost/ecell'
+}
+
 module.exports = {
   // 1. MongoDB
-  MONGO_URI:
-    process.env.ATLAS_URI ||
-    process.env.MONGO_URI ||
-    'mongodb://localhost/ecell',
+  MONGO_URI: getURI(),
 
   // 2. JWT
   TOKEN_SECRET:
