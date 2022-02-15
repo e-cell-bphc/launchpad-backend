@@ -36,6 +36,12 @@ const emailIncorrectToken = {
   desc: 'Incorrect token. Verification failed.'
 }
 
+const userAlreadyExists = {
+  status: 'error',
+  code: '210',
+  desc: 'A user with this email already exists'
+}
+
 module.exports = {
   noUser,
   userCreationFailed,
@@ -45,5 +51,6 @@ module.exports = {
   noAdminScope,
   emailVerificationTokenMissing,
   emailVerificationFailed,
-  emailIncorrectToken
+  emailIncorrectToken,
+  userAlreadyExists
 }

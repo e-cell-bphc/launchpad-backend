@@ -12,7 +12,8 @@ const {
   userCreationFailed,
   emailVerificationTokenMissing,
   emailVerificationFailed,
-  emailIncorrectToken
+  emailIncorrectToken,
+  userAlreadyExists
 } = require('../errors/auth')
 
 async function register(req, res) {
@@ -61,7 +62,11 @@ async function register(req, res) {
       data: { _id: result._id, token }
     })
   } catch (error) {
-    console.log(error)
+    console.log('yoo', error)
+    if (error.code === 11000) {
+      return res.status(400).json(userAlreadyExists)
+    }
+
     return res.status(500).json(userCreationFailed)
   }
 }
