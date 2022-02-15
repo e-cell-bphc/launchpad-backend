@@ -2,7 +2,10 @@ require('dotenv').config()
 
 module.exports = {
   // 1. MongoDB
-  MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost/ecell',
+  MONGO_URI:
+    process.env.ATLAS_URI ||
+    process.env.MONGO_URI ||
+    'mongodb://localhost/ecell',
 
   // 2. JWT
   TOKEN_SECRET:
