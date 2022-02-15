@@ -18,11 +18,32 @@ const noAdminScope = {
   desc: "User doesn't have admin permissions"
 }
 
+const emailVerificationTokenMissing = {
+  status: 'error',
+  code: '207',
+  desc: 'No email verification token'
+}
+
+const emailVerificationFailed = {
+  status: 'error',
+  code: '208',
+  desc: 'Email verification Failed'
+}
+
+const emailIncorrectToken = {
+  status: 'error',
+  code: '209',
+  desc: 'Incorrect token. Verification failed.'
+}
+
 module.exports = {
   noUser,
   userCreationFailed,
   tokenMissing,
   tokenInvalid,
   tokenExpired,
-  noAdminScope
+  noAdminScope,
+  emailVerificationTokenMissing,
+  emailVerificationFailed,
+  emailIncorrectToken
 }

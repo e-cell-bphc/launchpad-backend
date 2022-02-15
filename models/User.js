@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  emailVerified: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   password: {
     type: String,
     required: true
@@ -28,17 +33,12 @@ const userSchema = new mongoose.Schema({
   },
   accessScopes: {
     type: Array,
-    required: true,
+    required: false,
     default: ['client']
-  },
-  companiesApplied: {
-    type: Number,
-    required: true,
-    default: 0
   },
   resumeURL: {
     type: String,
-    required: true,
+    required: false,
     default: ''
   }
 })
