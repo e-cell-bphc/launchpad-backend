@@ -42,6 +42,12 @@ const userAlreadyExists = {
   desc: 'A user with this email already exists'
 }
 
+const insufficentAuthorisation = {
+  status: 'error',
+  code: '211',
+  desc: 'Insufficient authorisation'
+}
+
 module.exports = {
   noUser,
   userCreationFailed,
@@ -52,5 +58,6 @@ module.exports = {
   emailVerificationTokenMissing,
   emailVerificationFailed,
   emailIncorrectToken,
-  userAlreadyExists
+  userAlreadyExists,
+  insufficentAuthorisation
 }
