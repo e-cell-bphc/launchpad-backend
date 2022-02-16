@@ -11,3 +11,5 @@
 ### Notes
 
 1. An important design related decison: Now each route has an entry in the database with it's corresponding scopes. The array of scopes in the routes collection will be the shortest it can be and mostly contain the only highest level of authorisation needed and hence be small. The user might have multiple permissions and we check that the array routes.doc.scopes is a subarray of user.doc.accessScopes which guarantees that the user has a specific permission.
+
+2. Every company for it's logo now gets an identifier that corresponds to an image on the server. The client checks if they have an image with the same identifier and if so, they use the cached version and if not, they request the image and cache it.
