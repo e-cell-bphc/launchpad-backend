@@ -14,7 +14,7 @@ const companySchema = new mongoose.Schema({
     type: Array,
     required: true
   },
-  logoIdentifier: {
+  logoURL: {
     type: String,
     required: true
   }
