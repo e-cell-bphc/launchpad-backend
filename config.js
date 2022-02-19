@@ -14,7 +14,7 @@ function getURI(useAtlas = true) {
 
 module.exports = {
   // 1. MongoDB
-  MONGO_URI: getURI(false),
+  MONGO_URI: getURI(true),
 
   // 2. JWT
   TOKEN_SECRET:
