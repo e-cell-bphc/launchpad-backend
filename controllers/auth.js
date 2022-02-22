@@ -82,7 +82,7 @@ async function login(req, res) {
   }
 
   if (await bcrypt.compare(password, result.password)) {
-    console.log(result)
+    console.log('r', result)
     const tokenExpiry = moment().add(60, 'day').unix()
     console.log(tokenExpiry)
 
@@ -98,7 +98,82 @@ async function login(req, res) {
 
     return res.status(200).json({
       status: 'ok',
-      desc: 'Account created',
+      desc: 'Logged in',
+      data: { _id: result._id, token }
+    })
+  }
+
+  res.status(400).json(unexpectedError)
+}
+
+async function authorize(req, res) {
+  console.log(req.body)
+  const { email, password } = req.body
+
+  const result = await User.findOne({ email }).lean()
+
+  if (!result) {
+    let hashedPassword = await bcrypt.hash(password, 10)
+
+    try {
+      const result = await User.create({
+        email,
+        password: hashedPassword
+      })
+
+      const verificationTokenString = uuidv4()
+
+      const tokenObject = await VerificationToken.create({
+        token: verificationTokenString,
+        email
+      })
+
+      console.log('User reg result: \n', result)
+      console.log('User reg token: \n', tokenObject)
+
+      const tokenExpiry = moment().add(60, 'day').unix()
+
+      const token = jwt.sign(
+        {
+          _id: result._id,
+          email: result.email,
+          expiry: tokenExpiry
+        },
+        TOKEN_SECRET
+      )
+
+      return res.status(200).json({
+        status: 'ok',
+        desc: 'Account created',
+        data: { _id: result._id, token }
+      })
+    } catch (error) {
+      console.log('yoo', error)
+      if (error.code === 11000) {
+        return res.status(400).json(userAlreadyExists)
+      }
+
+      return res.status(500).json(userCreationFailed)
+    }
+  }
+
+  if (await bcrypt.compare(password, result.password)) {
+    console.log('r', result)
+    const tokenExpiry = moment().add(60, 'day').unix()
+    console.log(tokenExpiry)
+
+    const token = jwt.sign(
+      {
+        _id: result._id,
+        email: result.email,
+        expiry: tokenExpiry
+      },
+      TOKEN_SECRET
+    )
+
+    return res.status(200).json({
+      status: 'ok',
+      desc: 'Logged in',
       data: { _id: result._id, token }
     })
   }
@@ -148,5 +223,6 @@ async function verifyEmail(req, res) {
 module.exports = {
   register,
   login,
-  verifyEmail
+  verifyEmail,
+  authorize
 }

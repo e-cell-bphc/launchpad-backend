@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema({
   },
   college: {
     type: String,
-    required: true
+    required: false
   },
   phoneNumber: {
     type: String,
-    required: true
+    required: false
   },
   accessScopes: {
     type: Array,
@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
     default: ''
+  },
+  paymentComplete: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 

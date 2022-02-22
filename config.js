@@ -25,5 +25,11 @@ module.exports = {
   LISTEN_PORT: process.env.LISTEN_PORT || 3000,
 
   // 4. Application Limit
-  APPLY_LIMIT: 6
+  APPLY_LIMIT: 6,
+
+  // 5. Base URL
+  BASE_URL: process.env.BASE_URL,
+
+  // 6. Razorpay Webhook Secret
+  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET
 }
