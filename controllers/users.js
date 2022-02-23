@@ -9,13 +9,13 @@ async function getProfile(req, res) {
   const result = await User.findOne({ _id: userID }).lean()
 
   if (result) {
-    res.json({
+    return res.json({
       status: 'ok',
       data: result
     })
   }
 
-  res.status(401).json(noUser)
+  return res.status(401).json(noUser)
 }
 
 async function getProfileWithAdminOrEditorScope(req, res) {
