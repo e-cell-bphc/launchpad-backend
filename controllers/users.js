@@ -8,7 +8,7 @@ async function getProfile(req, res) {
 
   const result = await User.findOne(
     { _id: userID },
-    'name email college'
+    'name email college phoneNumber yos resumeURL'
   ).lean()
 
   if (!result) {
