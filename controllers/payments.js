@@ -102,12 +102,13 @@ async function verifyPaymentWebhook(req, res) {
   const SECRET =
     '28GJ?Uzup3QDW*b#_W4T&vpmu=jD%k5wm3hLryz+-XwKH!G!gZn322^@@BRxjnzx'
 
-  console.log(req.body)
+  console.log('webhook', req.body)
 
-  const usr = await Order.findOne({
-    order_id: req.body.payload.payment.entity.order_id
-  })
   try {
+    const usr = await Order.findOne({
+      order_id: req.body.payload.payment.entity.order_id
+    })
+    console.log('webhook::usr', usr)
     const result = await User.updateOne(
       { email: usr.email },
       {
@@ -116,14 +117,16 @@ async function verifyPaymentWebhook(req, res) {
         }
       }
     )
+    console.log('webhook::result', result)
 
     if (!result) {
+      console.log('webhook::res : failed')
       return res.json({
         status: 'failed',
         desc: `payment verification for ${usr.email} failed`
       })
     }
-
+    console.log('webhook::res : success')
     return res.json({
       status: 'ok',
       desc: 'payment complete'
