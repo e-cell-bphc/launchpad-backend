@@ -8,7 +8,7 @@ async function getProfile(req, res) {
 
   const result = await User.findOne({ _id: userID }).lean()
 
-  if (!result) {
+  if (result) {
     res.json({
       status: 'ok',
       data: result
