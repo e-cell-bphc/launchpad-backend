@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const {
   getProfile,
-  getProfileWithAdminOrEditorScope
+  getProfileWithAdminOrEditorScope,
+  updateProfile
 } = require('../controllers/users')
 const {
   ensureAuthenticated,
@@ -14,5 +15,7 @@ router.get(
   ensureAuthenticatedWithAdminEditorScope,
   getProfileWithAdminOrEditorScope
 )
+
+router.post('/updateProfile', updateProfile)
 
 module.exports = router

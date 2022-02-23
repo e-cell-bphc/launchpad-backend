@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  yos: {
+    type: String,
+    default: '',
+    required: false
+  },
   college: {
     type: String,
     required: false

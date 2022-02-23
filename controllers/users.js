@@ -1,12 +1,15 @@
+var _ = require('lodash')
+
 const { noUser } = require('../errors/auth')
 var User = require('../models/User')
 
 async function getProfile(req, res) {
   const userID = req.params.id
 
-  const result = await User.findOne
-    .findOne({ _id: userID }, 'name email college')
-    .lean()
+  const result = await User.findOne(
+    { _id: userID },
+    'name email college'
+  ).lean()
 
   if (!result) {
     res.json({
@@ -21,12 +24,10 @@ async function getProfile(req, res) {
 async function getProfileWithAdminOrEditorScope(req, res) {
   const userID = req.params.id
 
-  const result = await User.findOne
-    .findOne(
-      { _id: userID },
-      'name email datetime college phoneNumber accessScopes'
-    )
-    .lean()
+  const result = await User.findOne(
+    { _id: userID },
+    'name email datetime college phoneNumber accessScopes'
+  ).lean()
 
   if (!result) {
     res.json({
@@ -50,7 +51,29 @@ async function getProfileWithAdminOrEditorScope(req, res) {
 //     })
 // }
 
+async function updateProfile(req, res) {
+  const { name, email, phoneNumber, college, yos, resumeURL } = req.body
+
+  var obj = { name, phoneNumber, college, yos, resumeURL }
+  obj = _.pickBy(obj, _.identity)
+
+  const result = await User.updateOne({ email }, { $set: obj })
+
+  if (!result) {
+    return res.status(400).json({
+      status: 'failed',
+      desc: 'Update failed'
+    })
+  }
+
+  return res.json({
+    status: 'ok',
+    desc: 'Update complete'
+  })
+}
+
 module.exports = {
   getProfile,
-  getProfileWithAdminOrEditorScope
+  getProfileWithAdminOrEditorScope,
+  updateProfile
 }
