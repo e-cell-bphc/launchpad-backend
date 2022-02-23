@@ -98,7 +98,7 @@ async function ensureAuthenticated(req, res, next) {
 
   var user = null
   try {
-    user = jwt.decode(token, config.TOKEN_SECRET)
+    user = jwt.decode(token, TOKEN_SECRET)
   } catch (err) {
     return res.status(401).send(tokenInvalid)
   }
