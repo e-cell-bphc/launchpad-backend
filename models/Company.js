@@ -5,7 +5,7 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  email: {
+  websiteLink: {
     type: String,
     required: true,
     unique: true
@@ -17,6 +17,10 @@ const companySchema = new mongoose.Schema({
   logoURL: {
     type: String,
     required: true
+  },
+  companyDesc:{
+    type:String,
+    required:true
   }
 })
 
