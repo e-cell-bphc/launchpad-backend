@@ -104,44 +104,46 @@ async function verifyPaymentWebhook(req, res) {
 
   console.log(req.body)
 
-  const shasum = crypto.createHmac('sha256', SECRET)
-  shasum.update(JSON.stringify(req.body))
-  const digest = shasum.digest('hex')
-
-  console.log(digest, req.headers['x-razorpay-signature'])
-
-  if (digest === req.headers['x-razorpay-signature']) {
-    const usr = await Order.findOne({
-      order_id: req.body.payload.payment.entity.order_id
-    })
-    try {
-      const result = await User.updateOne(
-        { email: usr.email },
-        {
-          $set: {
-            paymentComplete: true
-          }
+  const usr = await Order.findOne({
+    order_id: req.body.payload.payment.entity.order_id
+  })
+  try {
+    const result = await User.updateOne(
+      { email: usr.email },
+      {
+        $set: {
+          paymentComplete: true
         }
-      )
-
-      if (!result) {
-        return res.json({
-          status: 'failed',
-          desc: `payment verification for ${usr.email} failed`
-        })
       }
+    )
 
-      return res.json({
-        status: 'ok',
-        desc: 'payment complete'
-      })
-    } catch (error) {
+    if (!result) {
       return res.json({
         status: 'failed',
         desc: `payment verification for ${usr.email} failed`
       })
     }
+
+    return res.json({
+      status: 'ok',
+      desc: 'payment complete'
+    })
+  } catch (error) {
+    return res.json({
+      status: 'failed',
+      desc: `payment verification for ${usr.email} failed`
+    })
   }
+
+  // const shasum = crypto.createHmac('sha256', SECRET)
+  // shasum.update(JSON.stringify(req.body))
+  // const digest = shasum.digest('hex')
+
+  // console.log(digest, req.headers['x-razorpay-signature'])
+
+  // if (digest === req.headers['x-razorpay-signature']) {
+
+  // }
 
   res.json({
     status: 'failed',
