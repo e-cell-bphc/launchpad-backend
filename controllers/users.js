@@ -6,10 +6,7 @@ var User = require('../models/User')
 async function getProfile(req, res) {
   const userID = req.params.id
 
-  const result = await User.findOne(
-    { _id: userID },
-    'name email college phoneNumber yos resumeURL'
-  ).lean()
+  const result = await User.findOne({ _id: userID }).lean()
 
   if (!result) {
     res.json({
