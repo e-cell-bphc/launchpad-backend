@@ -9,7 +9,7 @@ const {
   ensureAuthenticatedWithAdminEditorScope
 } = require('../middlewares/ensureAuthenticated')
 
-router.get('/:id', ensureAuthenticated, getProfile)
+router.get('/:id', getProfile)
 router.get(
   '/admin/:id',
   ensureAuthenticatedWithAdminEditorScope,
