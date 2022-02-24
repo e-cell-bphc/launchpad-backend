@@ -11,3 +11,28 @@
 ### Notes
 
 1. An important design related decison: Now each route has an entry in the database with it's corresponding scopes. The array of scopes in the routes collection will be the shortest it can be and mostly contain the only highest level of authorisation needed and hence be small. The user might have multiple permissions and we check that the array routes.doc.scopes is a subarray of user.doc.accessScopes which guarantees that the user has a specific permission.
+
+## **Routes**
+
+### **Authentication**
+1. POST register
+2. POST login
+3. POST verifyEmail
+4. POST authorize
+
+### **Company**
+1. POST getCompany
+2. POST addCompany
+
+### **Payments**
+1. POST createOrder
+2. POST verifyPaymentWebhook
+3. POST getPaymentSatus
+4. POST saveOrder
+
+### **Routes**
+1. POST add
+
+### **Users**
+1. GET :id
+2. GET admin/:id
