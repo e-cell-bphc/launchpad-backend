@@ -110,33 +110,33 @@ async function verifyPaymentWebhook(req, res) {
       const usr = await Order.findOne({
         order_id: req.body.payload.payment.entity.order_id
       })
+      console.log('webhook::usr', usr)
+      const result = await User.updateOne(
+        { email: usr.email },
+        {
+          $set: {
+            paymentComplete: true
+          }
+        }
+      )
+      console.log('webhook::result', result)
+
+      if (!result) {
+        console.log('webhook::res : failed')
+        return res.json({
+          status: 'failed',
+          desc: `payment verification for ${usr.email} failed`
+        })
+      }
+      console.log('webhook::res : success')
+      return res.json({
+        status: 'ok',
+        desc: 'payment complete'
+      })
     } catch (error) {
       console.log('error::usr', error)
       return res.json({ status: 'not ok' })
     }
-    console.log('webhook::usr', usr)
-    const result = await User.updateOne(
-      { email: usr.email },
-      {
-        $set: {
-          paymentComplete: true
-        }
-      }
-    )
-    console.log('webhook::result', result)
-
-    if (!result) {
-      console.log('webhook::res : failed')
-      return res.json({
-        status: 'failed',
-        desc: `payment verification for ${usr.email} failed`
-      })
-    }
-    console.log('webhook::res : success')
-    return res.json({
-      status: 'ok',
-      desc: 'payment complete'
-    })
   } catch (error) {
     return res.json({
       status: 'failed',
