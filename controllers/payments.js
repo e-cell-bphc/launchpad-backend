@@ -50,7 +50,7 @@ async function createOrderID(req, res) {
   const { email, _id } = req.body
 
   var options = {
-    amount: 50000, // amount in the smallest currency unit
+    amount: 26500, // amount in the smallest currency unit
     currency: 'INR',
     receipt: 'order_rcptid_11'
   }
