@@ -12,7 +12,7 @@ var instance = new Razorpay({
 
 async function getPaymentStatus(req, res) {
   console.log('getpay called')
-  const result = User.findOne({ email: req.body.email }).lean()
+  const result = await User.findOne({ email: req.body.email }).lean()
 
   if (result.paymentComplete) {
     return res.json({
