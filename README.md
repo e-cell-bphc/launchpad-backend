@@ -15,24 +15,29 @@
 ## **Routes**
 
 ### **Authentication**
+
 1. POST register
 2. POST login
 3. POST verifyEmail
 4. POST authorize
 
 ### **Company**
+
 1. POST getCompany
 2. POST addCompany
 
 ### **Payments**
+
 1. POST createOrder
 2. POST verifyPaymentWebhook
 3. POST getPaymentSatus
 4. POST saveOrder
 
 ### **Routes**
+
 1. POST add
 
 ### **Users**
+
 1. GET :id
 2. GET admin/:id

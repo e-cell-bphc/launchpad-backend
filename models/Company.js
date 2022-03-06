@@ -18,9 +18,9 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  companyDesc:{
-    type:String,
-    required:true
+  companyDesc: {
+    type: String,
+    required: true
   }
 })
 
