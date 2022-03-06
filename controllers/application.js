@@ -1,5 +1,4 @@
 const Application = require('../models/Application')
-const User = require('../models/User')
 const {
   applyFailed,
   invalidApplication,
@@ -9,11 +8,12 @@ const {
 const { APPLY_LIMIT } = require('../config')
 
 async function createApplication(req, res) {
+  const { applicantID, companyID, footnotes } = req.body
+
   const object = {
-    applicantID: req.body.applicantID,
-    companyID: req.body.companyID,
-    jobID: req.body.jobID,
-    footnotes: req.body.footnotes,
+    applicantID: applicantID,
+    companyID: companyID,
+    footnotes: footnotes,
     timestamp: Date.now()
   }
 
@@ -22,39 +22,44 @@ async function createApplication(req, res) {
 
     console.log(result)
 
-    const usr = await User.findOne({ _id: applicantID }).lean()
+    const usr = await Application.find({ applicantID }).lean()
 
-    if (usr.companiesApplied >= APPLY_LIMIT) {
+    if (usr.length >= APPLY_LIMIT) {
       return res.status(400).json(applicationLimitReached)
     } else if (usr.resumeURL == '') {
       return res.status(400).json(noResume)
     }
 
-    try {
-      const updateApplicationCountResult = await User.updateOne(
-        { _id: applicantID },
-        { $set: { companiesApplied: companiesApplied++ } }
-      )
+    return res.json({
+      status: 'ok',
+      desc: 'Applied Successfully',
+      n: usr.length
+    })
 
-      if (!updateApplicationCountResult) {
-        return res.status(400).json(applyFailed)
-      }
+    // try {
+    //   const updateApplicationCountResult = await User.updateOne(
+    //     { _id: applicantID },
+    //     { $set: { companiesApplied: companiesApplied++ } }
+    //   )
 
-      return res.json({
-        status: 'ok',
-        desc: 'application successful'
-      })
-    } catch (error) {
-      return res.status(400).json(applyFailed)
-    }
+    //   if (!updateApplicationCountResult) {
+    //     return res.status(400).json(applyFailed)
+    //   }
+
+    //   return res.json({
+    //     status: 'ok',
+    //     desc: 'application successful'
+    //   })
+    // } catch (error) {
+    //   return res.status(400).json(applyFailed)
+    // }
   } catch (error) {
     return res.status(500).json(applyFailed)
   }
 }
 
 async function removeApplication(req, res) {
-  const applicationID = req.body.applicationID
-  const applicantID = req.body.applicantID
+  const { applicationID, applicantID } = req.body
 
   try {
     const result = await Application.deleteOne({

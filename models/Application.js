@@ -13,10 +13,6 @@ const applicationSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  jobID: {
-    type: String,
-    required: true
-  },
   footnotes: {
     type: String,
     required: true
