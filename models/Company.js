@@ -7,8 +7,7 @@ const companySchema = new mongoose.Schema({
   },
   websiteLink: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   roles: {
     type: Array,
