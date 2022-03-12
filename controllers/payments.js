@@ -47,10 +47,10 @@ async function saveOrder(req, res) {
 }
 
 async function createOrderID(req, res) {
-  const { email, _id } = req.body
+  const { email, _id, cost } = req.body
 
   var options = {
-    amount: 26500, // amount in the smallest currency unit
+    amount: cost * 100, // amount in the smallest currency unit
     currency: 'INR',
     receipt: 'order_rcptid_11'
   }
