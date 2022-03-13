@@ -22,7 +22,7 @@ async function createApplication(req, res) {
 
     console.log(result)
 
-    const usr = await Application.find({ applicantID }).lean()
+    const usr = await Application.find({ applicantID })
 
     if (usr.length >= APPLY_LIMIT) {
       return res.status(400).json(applicationLimitReached)
