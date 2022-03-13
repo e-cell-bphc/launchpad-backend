@@ -18,17 +18,18 @@ async function createApplication(req, res) {
   }
 
   try {
-    const result = await Application.create(object)
-
-    console.log(result)
-
     const usr = await Application.find({ applicantID })
+
+    console.log(usr)
+    console.log(usr.length)
 
     if (usr.length >= APPLY_LIMIT) {
       return res.status(400).json(applicationLimitReached)
-    } else if (usr.resumeURL == '') {
-      return res.status(400).json(noResume)
     }
+
+    const result = await Application.create(object)
+
+    console.log(result)
 
     return res.json({
       status: 'ok',
