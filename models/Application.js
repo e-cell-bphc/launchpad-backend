@@ -16,7 +16,11 @@ const applicationSchema = new mongoose.Schema({
   footnotes: {
     type: String,
     required: true
-  }
+  },
+  shortlisted:{
+    type:boolean,
+    required: false,
+    default: false
 })
 
 module.exports = mongoose.model('Application', applicationSchema)
