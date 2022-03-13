@@ -10,12 +10,12 @@ const { APPLY_LIMIT } = require('../config')
 async function createApplication(req, res) {
   const { applicantID, companyID, footnotes } = req.body
 
-  const object = {
-    applicantID: applicantID,
-    companyID: companyID,
-    footnotes: footnotes,
-    timestamp: Date.now()
-  }
+  // const object = {
+  //   applicantID: applicantID,
+  //   companyID: companyID,
+  //   footnotes: footnotes,
+  //   timestamp: Date.now()
+  // }
 
   try {
     const usr = await Application.find({ applicantID })
@@ -27,7 +27,12 @@ async function createApplication(req, res) {
       return res.status(400).json(applicationLimitReached)
     }
 
-    const result = await Application.create(object)
+    const result = await Application.create({
+      applicantID,
+      companyID,
+      footnotes,
+      timestamp: Date.now()
+    })
 
     console.log(result)
 
