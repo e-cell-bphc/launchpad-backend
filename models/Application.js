@@ -17,10 +17,11 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  shortlisted:{
-    type:boolean,
+  shortlisted: {
+    type: Boolean,
     required: false,
     default: false
+  }
 })
 
 module.exports = mongoose.model('Application', applicationSchema)
