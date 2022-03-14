@@ -22,9 +22,16 @@ const noResume = {
   desc: 'Resume not uploaded'
 }
 
+const alreadyApplied = {
+  status: 'failed',
+  code: '405',
+  desc: 'Already Applied'
+}
+
 module.exports = {
   applyFailed,
   invalidApplication,
   applicationLimitReached,
-  noResume
+  noResume,
+  alreadyApplied
 }

@@ -3,7 +3,8 @@ const {
   applyFailed,
   invalidApplication,
   applicationLimitReached,
-  noResume
+  noResume,
+  alreadyApplied
 } = require('../errors/application')
 const { APPLY_LIMIT } = require('../config')
 
@@ -25,6 +26,12 @@ async function createApplication(req, res) {
 
     if (usr.length >= APPLY_LIMIT) {
       return res.status(400).json(applicationLimitReached)
+    }
+
+    const prev = await Application.find({ applicantID, companyID })
+
+    if (prev.length > 0) {
+      return res.status(400).json(alreadyApplied)
     }
 
     const result = await Application.create({
