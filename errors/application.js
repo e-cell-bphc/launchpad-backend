@@ -28,10 +28,17 @@ const alreadyApplied = {
   desc: 'Already Applied'
 }
 
+const paymentIncomplete = {
+  status: 'failed',
+  code: '406',
+  desc: 'Payment incomplete'
+}
+
 module.exports = {
   applyFailed,
   invalidApplication,
   applicationLimitReached,
   noResume,
-  alreadyApplied
+  alreadyApplied,
+  paymentIncomplete
 }

@@ -4,7 +4,8 @@ const {
   invalidApplication,
   applicationLimitReached,
   noResume,
-  alreadyApplied
+  alreadyApplied,
+  paymentIncomplete
 } = require('../errors/application')
 const { APPLY_LIMIT } = require('../config')
 
@@ -23,6 +24,10 @@ async function createApplication(req, res) {
 
     console.log(usr)
     console.log(usr.length)
+
+    if (!req.usr.paymentComplete) {
+      return res.status(401).json(paymentIncomplete)
+    }
 
     if (usr.length >= APPLY_LIMIT) {
       return res.status(400).json(applicationLimitReached)
