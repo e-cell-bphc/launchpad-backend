@@ -99,7 +99,10 @@ async function removeApplication(req, res) {
   }
 }
 
+async function getAppliedCompaniesUser(req, res) {}
+
 module.exports = {
   createApplication,
-  removeApplication
+  removeApplication,
+  getAppliedCompaniesUser
 }

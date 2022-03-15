@@ -1,6 +1,6 @@
 const Company = require('../models/Company')
 
-async function getCompany(req, res) {
+async function getCompanies(req, res) {
   try {
     console.log('Fetching all companies')
     const result = await Company.find().lean()
@@ -33,7 +33,27 @@ async function addCompany(req, res) {
   }
 }
 
+async function getCompany(req, res) {
+  const { companyID } = req.params
+
+  console.log(companyID)
+
+  const details = await Company.findOne({ _id: companyID }).lean()
+
+  if (!details) {
+    return res
+      .status(400)
+      .json({ status: 'failed', desc: 'Could not find the specified company' })
+  }
+
+  return res.json({
+    status: 'ok',
+    data: details
+  })
+}
+
 module.exports = {
-  getCompany,
-  addCompany
+  getCompanies,
+  addCompany,
+  getCompany
 }

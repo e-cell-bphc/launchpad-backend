@@ -1,9 +1,14 @@
-const { getCompany, addCompany } = require('../controllers/company')
+const {
+  getCompanies,
+  addCompany,
+  getCompany
+} = require('../controllers/company')
 const router = require('express').Router()
 
 const BASE = '/api/company'
 
-router.post('/getCompany', getCompany)
+router.get('/getCompanies', getCompanies)
 router.post('/addCompany', addCompany)
+router.get('/getCompany/:companyID', getCompany)
 
 module.exports = router
