@@ -103,7 +103,7 @@ async function removeApplication(req, res) {
 async function getAppliedCompaniesUser(req, res) {
   console.log(req.usr)
 
-  const appliedCompanies = []
+  const appliedCompanies = new Array()
 
   const comp = await Application.find({ applicantID: req.usr._id })
   console.log(comp)
