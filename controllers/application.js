@@ -107,7 +107,7 @@ async function getAppliedCompaniesUser(req, res) {
 
   const comp = await Application.find({ applicantID: req.usr._id })
 
-  comp.forEach((c) => {
+  comp.forEach(async (c) => {
     const cx = await Company.findOne({ _id: c.companyID }).lean()
 
     if (!cx) {
