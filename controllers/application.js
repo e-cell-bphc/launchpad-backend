@@ -8,6 +8,7 @@ const {
   paymentIncomplete
 } = require('../errors/application')
 const { APPLY_LIMIT } = require('../config')
+const { default: axios } = require('axios')
 
 async function createApplication(req, res) {
   const { applicantID, companyID, footnotes } = req.body
@@ -99,7 +100,42 @@ async function removeApplication(req, res) {
   }
 }
 
-async function getAppliedCompaniesUser(req, res) {}
+async function getAppliedCompaniesUser(req, res) {
+  console.log(req.usr)
+
+  const appliedCompanies = []
+
+  const comp = await Application.find({ applicantID: req.usr._id })
+
+  comp.forEach((c) => {
+    axios
+      .get(
+        `https://backend-api-2022.onrender.com/api/company/getCompany/${c.companyID}`
+      )
+      .then((data) => {
+        appliedCompanies.push(data)
+      })
+      .catch((error) => {
+        console.log(error)
+        return res.status(400).json({
+          status: 'failed',
+          desc: 'Data fetching failed'
+        })
+      })
+  })
+
+  if (!appliedCompanies) {
+    return res.status(400).json({
+      status: 'failed',
+      desc: 'Failed to retrieve companies'
+    })
+  }
+
+  return res.json({
+    status: 'ok',
+    data: appliedCompanies
+  })
+}
 
 module.exports = {
   createApplication,
