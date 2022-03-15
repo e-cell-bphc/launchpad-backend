@@ -106,6 +106,7 @@ async function getAppliedCompaniesUser(req, res) {
   const appliedCompanies = []
 
   const comp = await Application.find({ applicantID: req.usr._id })
+  console.log(comp)
 
   comp.forEach(async (c) => {
     const cx = await Company.findOne({ _id: c.companyID }).lean()
