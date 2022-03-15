@@ -109,6 +109,7 @@ async function getAppliedCompaniesUser(req, res) {
 
   comp.forEach(async (c) => {
     const cx = await Company.findOne({ _id: c.companyID }).lean()
+    console.log(cx)
 
     if (!cx) {
       return res.status(400).json({
