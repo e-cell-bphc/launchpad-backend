@@ -1,4 +1,5 @@
 const Application = require('../models/Application')
+const Company = require('../models/Company')
 const {
   applyFailed,
   invalidApplication,
@@ -8,7 +9,6 @@ const {
   paymentIncomplete
 } = require('../errors/application')
 const { APPLY_LIMIT } = require('../config')
-const { default: axios } = require('axios')
 
 async function createApplication(req, res) {
   const { applicantID, companyID, footnotes } = req.body
@@ -108,20 +108,31 @@ async function getAppliedCompaniesUser(req, res) {
   const comp = await Application.find({ applicantID: req.usr._id })
 
   comp.forEach((c) => {
-    axios
-      .get(
-        `https://backend-api-2022.onrender.com/api/company/getCompany/${c.companyID}`
-      )
-      .then((data) => {
-        appliedCompanies.push(data)
+    const cx = await Company.findOne({ _id: c.companyID }).lean()
+
+    if (!cx) {
+      return res.status(400).json({
+        status: 'failed',
+        desc: 'Data fetching failed'
       })
-      .catch((error) => {
-        console.log(error)
-        return res.status(400).json({
-          status: 'failed',
-          desc: 'Data fetching failed'
-        })
-      })
+    }
+
+    appliedCompanies.push(cx)
+
+    // axios
+    //   .get(
+    //     `https://backend-api-2022.onrender.com/api/company/getCompany/${c.companyID}`
+    //   )
+    //   .then((data) => {
+    //     appliedCompanies.push(data)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     return res.status(400).json({
+    //       status: 'failed',
+    //       desc: 'Data fetching failed'
+    //     })
+    //   })
   })
 
   if (!appliedCompanies) {
