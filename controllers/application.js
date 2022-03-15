@@ -108,7 +108,7 @@ async function getAppliedCompaniesUser(req, res) {
   const comp = await Application.find({ applicantID: req.usr._id })
   console.log(comp)
 
-  comp.forEach(async (c) => {
+  for (const c of comp) {
     const cx = await Company.findOne({ _id: c.companyID }).lean()
     console.log(cx)
 
@@ -135,7 +135,7 @@ async function getAppliedCompaniesUser(req, res) {
     //       desc: 'Data fetching failed'
     //     })
     //   })
-  })
+  }
 
   if (!appliedCompanies) {
     return res.status(400).json({
