@@ -85,6 +85,7 @@ async function createOrderID(req, res) {
                     console.log('coupon code mapping saved')
                   })
                   .catch((error) => {
+                    console.log(error)
                     console.log('err saving coupon code mapping')
                   })
               })
