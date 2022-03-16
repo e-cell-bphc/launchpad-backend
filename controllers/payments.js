@@ -4,6 +4,7 @@ const User = require('../models/User')
 const Order = require('../models/Order')
 const { default: axios } = require('axios')
 const { BASE_URL } = require('../config')
+const CouponPayment = require('../models/CouponPayment')
 
 var instance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -47,12 +48,12 @@ async function saveOrder(req, res) {
 }
 
 async function createOrderID(req, res) {
-  const { email, _id, cost } = req.body
+  const { email, _id, cost, coupon } = req.body
 
   var options = {
     amount: cost * 100, // amount in the smallest currency unit
     currency: 'INR',
-    receipt: 'order_rcptid_11'
+    receipt: `order_rcpt_${_id}`
   }
 
   axios
@@ -74,6 +75,12 @@ async function createOrderID(req, res) {
               })
               .then((response) => {
                 console.log('response::save', response.data)
+
+                const r = await CouponPayment.create({
+                  applicantID: _id,
+                  couponCode: coupon,
+                  email
+                })
               })
               .catch((err) => {
                 console.log('err::save', err)
