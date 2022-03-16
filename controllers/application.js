@@ -113,10 +113,11 @@ async function getAppliedCompaniesUser(req, res) {
     console.log(cx)
 
     if (!cx) {
-      return res.status(400).json({
-        status: 'failed',
-        desc: 'Data fetching failed'
-      })
+      continue
+      // return res.status(400).json({
+      //   status: 'failed',
+      //   desc: 'Data fetching failed'
+      // })
     }
 
     appliedCompanies.push(cx)
