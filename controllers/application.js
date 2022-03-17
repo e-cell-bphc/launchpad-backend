@@ -26,6 +26,10 @@ async function createApplication(req, res) {
     console.log(usr)
     console.log(usr.length)
 
+    if (!req.usr.resumeURL) {
+      return res.status(401).json(noResume)
+    }
+
     if (!req.usr.paymentComplete) {
       return res.status(401).json(paymentIncomplete)
     }
