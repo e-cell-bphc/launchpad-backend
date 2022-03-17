@@ -145,9 +145,9 @@ async function verifyPaymentWebhook(req, res) {
 
       if (coupon) {
         CouponPayment.create({
-          applicantID: _id,
+          applicantID: usr.user_id,
           couponCode: coupon,
-          email
+          email: usr.email
         })
           .then((r) => {
             console.log('coupon code mapping saved')
