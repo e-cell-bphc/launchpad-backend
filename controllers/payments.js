@@ -76,18 +76,20 @@ async function createOrderID(req, res) {
               .then((response) => {
                 console.log('response::save', response.data)
 
-                CouponPayment.create({
-                  applicantID: _id,
-                  couponCode: coupon,
-                  email
-                })
-                  .then((r) => {
-                    console.log('coupon code mapping saved')
+                if (coupon) {
+                  CouponPayment.create({
+                    applicantID: _id,
+                    couponCode: coupon,
+                    email
                   })
-                  .catch((error) => {
-                    console.log(error)
-                    console.log('err saving coupon code mapping')
-                  })
+                    .then((r) => {
+                      console.log('coupon code mapping saved')
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                      console.log('err saving coupon code mapping')
+                    })
+                }
               })
               .catch((err) => {
                 console.log('err::save', err)
