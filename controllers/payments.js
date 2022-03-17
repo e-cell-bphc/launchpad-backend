@@ -53,7 +53,10 @@ async function createOrderID(req, res) {
   var options = {
     amount: cost * 100, // amount in the smallest currency unit
     currency: 'INR',
-    receipt: `order_rcpt_${_id}`
+    receipt: `order_rcpt_${_id}`,
+    notes: {
+      coupon
+    }
   }
 
   axios
@@ -76,20 +79,20 @@ async function createOrderID(req, res) {
               .then((response) => {
                 console.log('response::save', response.data)
 
-                if (coupon) {
-                  CouponPayment.create({
-                    applicantID: _id,
-                    couponCode: coupon,
-                    email
-                  })
-                    .then((r) => {
-                      console.log('coupon code mapping saved')
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                      console.log('err saving coupon code mapping')
-                    })
-                }
+                // if (coupon) {
+                //   CouponPayment.create({
+                //     applicantID: _id,
+                //     couponCode: coupon,
+                //     email
+                //   })
+                //     .then((r) => {
+                //       console.log('coupon code mapping saved')
+                //     })
+                //     .catch((error) => {
+                //       console.log(error)
+                //       console.log('err saving coupon code mapping')
+                //     })
+                // }
               })
               .catch((err) => {
                 console.log('err::save', err)
@@ -136,6 +139,24 @@ async function verifyPaymentWebhook(req, res) {
         }
       )
       console.log('webhook::result', result)
+
+      const { coupon } = req.body.payload.payment.entity.notes
+      console.log('coupon code', coupon)
+
+      if (coupon) {
+        CouponPayment.create({
+          applicantID: _id,
+          couponCode: coupon,
+          email
+        })
+          .then((r) => {
+            console.log('coupon code mapping saved')
+          })
+          .catch((error) => {
+            console.log(error)
+            console.log('err saving coupon code mapping')
+          })
+      }
 
       if (!result) {
         console.log('webhook::res : failed')
